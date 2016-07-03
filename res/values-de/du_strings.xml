@@ -214,6 +214,8 @@
   <!-- USB debugging notification -->
   <string name="adb_notify">Debugging-Benachrichtigung</string>
   <string name="adb_notify_summary">Zeigt eine Benachrichtigung, wenn USB- oder Netzwerkdebugging aktiviert ist</string>
+  <string name="adb_always_notify">Debugging aktiviert Benachrichtigung</string>
+  <string name="adb_always_notify_summary">Zeigt eine Benachrichtigung, wenn USB- oder Netzwerkdebugging aktiviert ist, selbst falls keine Verbindung besteht</string>
   <!-- Volume Steps -->
   <string name="volume_steps_title">Lautstärke-Schritte</string>
   <string name="volume_steps_alarm_title">Lautstärke-Schritte: Wecker</string>

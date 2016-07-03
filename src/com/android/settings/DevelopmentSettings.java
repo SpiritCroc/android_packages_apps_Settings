@@ -108,6 +108,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
     private static final String CLEAR_ADB_KEYS = "clear_adb_keys";
     private static final String ADB_TCPIP = "adb_over_network";
     private static final String ADB_NOTIFY = "adb_notify";
+    private static final String ADB_ALWAYS_NOTIFY = "adb_always_notify";
     private static final String ENABLE_TERMINAL = "enable_terminal";
     private static final String KEEP_SCREEN_ON = "keep_screen_on";
     private static final String BT_HCI_SNOOP_LOG = "bt_hci_snoop_log";
@@ -201,6 +202,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
     private SwitchPreference mEnableAdb;
     private Preference mClearAdbKeys;
     private SwitchPreference mAdbNotify;
+    private SwitchPreference mAdbAlwaysNotify;
     private SwitchPreference mEnableTerminal;
     private SwitchPreference mAdbOverNetwork;
     private SwitchPreference mKeepScreenOn;
@@ -316,6 +318,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         }
         mAllPrefs.add(mClearAdbKeys);
         mAdbNotify = findAndInitSwitchPref(ADB_NOTIFY);
+        mAdbAlwaysNotify = findAndInitSwitchPref(ADB_ALWAYS_NOTIFY);
         mEnableTerminal = findAndInitSwitchPref(ENABLE_TERMINAL);
         if (!isPackageInstalled(getActivity(), TERMINAL_APP_PACKAGE)) {
             debugDebuggingCategory.removePreference(mEnableTerminal);
@@ -340,6 +343,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
             disableForUser(mEnableAdb);
             disableForUser(mClearAdbKeys);
             disableForUser(mAdbNotify);
+            disableForUser(mAdbAlwaysNotify);
             disableForUser(mEnableTerminal);
             disableForUser(mPassword);
         }
@@ -578,6 +582,8 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
                 Settings.Global.ADB_ENABLED, 0) != 0);
         updateSwitchPreference(mAdbNotify, Settings.Secure.getInt(cr,
                 Settings.Secure.ADB_NOTIFY, 1) != 0);
+        updateSwitchPreference(mAdbAlwaysNotify, Settings.Secure.getInt(cr,
+                Settings.Secure.ADB_ALWAYS_NOTIFY, 0) != 0);
         if (mEnableTerminal != null) {
             updateSwitchPreference(mEnableTerminal,
                     context.getPackageManager().getApplicationEnabledSetting(TERMINAL_APP_PACKAGE)
@@ -1600,6 +1606,10 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
             Settings.Secure.putInt(getActivity().getContentResolver(),
                     Settings.Global.ADB_NOTIFY,
                     mAdbNotify.isChecked() ? 1 : 0);
+        } else if (preference == mAdbAlwaysNotify) {
+            Settings.Secure.putInt(getActivity().getContentResolver(),
+                    Settings.Global.ADB_ALWAYS_NOTIFY,
+                    mAdbAlwaysNotify.isChecked() ? 1 : 0);
         } else if (preference == mAdbOverNetwork) {
             if (mAdbOverNetwork.isChecked()) {
                 if (mAdbTcpDialog != null) {
